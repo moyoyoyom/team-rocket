@@ -1,0 +1,19 @@
+{
+  "name": "team-rocket",
+  "version": "1.0.0",
+  "description": "Hackathon project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moyoyoyom/team-rocket.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moyoyoyom/team-rocket/issues"
+  },
+  "homepage": "https://github.com/moyoyoyom/team-rocket#readme"
+}
