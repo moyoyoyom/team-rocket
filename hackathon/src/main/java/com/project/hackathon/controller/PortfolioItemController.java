@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.hackathon.model.PortfolioItem;
-import com.project.hackathon.service.StockService;
+import com.project.hackathon.service.PortfolioItemService;
 
 import yahoofinance.Stock;
 
@@ -18,10 +18,10 @@ import yahoofinance.Stock;
 @RequestMapping("/api/teamrocket/stocks")
 public class PortfolioItemController {
 
-    private final StockService stockService;
+    private final PortfolioItemService stockService;
 
     @Autowired
-    public PortfolioItemController(StockService stockService) {
+    public PortfolioItemController(PortfolioItemService stockService) {
         this.stockService = stockService;
     }
 

@@ -13,10 +13,10 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 @Service
-public class StockService {
+public class PortfolioItemService {
     private final PortfolioItemRepository stockRepository;
 
-    public StockService(PortfolioItemRepository stockRepository) {
+    public PortfolioItemService(PortfolioItemRepository stockRepository) {
         this.stockRepository = stockRepository;
     }
 
