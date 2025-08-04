@@ -1,5 +1,8 @@
 package com.project.hackathon.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,13 +19,21 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "Stocks")
-public class Stock {
-
+@Table(name = "Orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ID;
+    private Integer orderID;
 
     @Column(nullable = false)
     private String tickerSymbol;
+
+    @Column(nullable = false)
+    private OrderAction orderAction;
+
+    @Column(nullable = false)
+    private BigDecimal dollarAmount;
+
+    @Column(nullable = false)
+    private LocalDateTime executionDateTime;
 }
