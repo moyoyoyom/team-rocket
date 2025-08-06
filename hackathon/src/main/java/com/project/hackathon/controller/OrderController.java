@@ -31,6 +31,6 @@ public class OrderController {
 
     @PostMapping("/makeorder")
     public ResponseEntity<?> makeOrder(@RequestBody Order stockOrder) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok("Order was successful");
     }
 }

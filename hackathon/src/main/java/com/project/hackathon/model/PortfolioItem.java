@@ -1,6 +1,7 @@
 package com.project.hackathon.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,8 +27,18 @@ public class PortfolioItem {
     private Integer ID;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String tickerSymbol;
 
     @Column(nullable = false)
     private BigDecimal quantity;
+
+    @Column(nullable = false)
+    private BigDecimal priceBoughtAt;
+
+    private BigDecimal currentPrice;
+
+    private LocalDateTime timeUpdated;
 }
