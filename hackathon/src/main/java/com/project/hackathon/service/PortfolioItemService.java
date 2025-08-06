@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project.hackathon.model.PortfolioItem;
+import com.project.hackathon.model.Stock;
 import com.project.hackathon.repository.PortfolioItemRepository;
 
 @Service
@@ -20,8 +21,8 @@ public class PortfolioItemService {
         return stockRepository.findAll();
     }
 
-    public PortfolioItem getStockByTickerID(String tickerID) {
-        PortfolioItem portfolioItem = stockService.getStockInformation("AAPL", "Apple");
-        return portfolioItem;
+    public Stock getStockByTickerID(String tickerID) {
+        Stock stock = stockService.getStockInformation(tickerID);
+        return stock;
     }
 }

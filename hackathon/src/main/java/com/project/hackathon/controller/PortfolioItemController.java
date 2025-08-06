@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.hackathon.model.PortfolioItem;
+import com.project.hackathon.model.Stock;
 import com.project.hackathon.service.PortfolioItemService;
 
 @RestController
@@ -31,7 +32,7 @@ public class PortfolioItemController {
 
     @GetMapping("/getstockinfo/{tickerID}")
     public ResponseEntity<?> getStockInfo(@PathVariable("tickerID") String tickerID) {
-        PortfolioItem stock = stockService.getStockByTickerID(tickerID);
+        Stock stock = stockService.getStockByTickerID(tickerID);
         return ResponseEntity.ok(stock);
     }
 }

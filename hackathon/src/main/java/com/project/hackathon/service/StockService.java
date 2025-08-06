@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.project.hackathon.model.PortfolioItem;
+import com.project.hackathon.model.Stock;
 
 @Service
 public class StockService {
@@ -26,7 +26,7 @@ public class StockService {
         this.API_KEY = API_KEY;
     }
 
-    public PortfolioItem getStockInformation(String symbol, String stockName) {
+    public Stock getStockInformation(String symbol) {
         String stockEndpoint = String.format("%s?symbol=%s&token=%s", BASE_URL, symbol,
                 API_KEY);
 
@@ -47,9 +47,8 @@ public class StockService {
             stockInformation = JsonParser.parseString(httpResponse.get().body()).getAsJsonObject();
         }
 
-        PortfolioItem stock = new PortfolioItem();
+        Stock stock = new Stock();
         stock.setCurrentPrice(stockInformation.get("c").getAsBigDecimal());
-        stock.setName(stockName);
         stock.setTimeUpdated(LocalDateTime.now());
         stock.setTickerSymbol(symbol);
 
