@@ -19,5 +19,4 @@ public class OrderService {
         List<Order> orderHistory = orderRepository.findAll();
         return orderHistory;
     }
-
 }
