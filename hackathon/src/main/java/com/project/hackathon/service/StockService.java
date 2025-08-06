@@ -47,7 +47,6 @@ public class StockService {
             stockInformation = JsonParser.parseString(httpResponse.get().body()).getAsJsonObject();
         }
 
-        System.out.println(stockInformation.get("c"));
         PortfolioItem stock = new PortfolioItem();
         stock.setCurrentPrice(stockInformation.get("c").getAsBigDecimal());
         stock.setName(stockName);

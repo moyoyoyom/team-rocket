@@ -21,8 +21,7 @@ public class PortfolioItemService {
     }
 
     public PortfolioItem getStockByTickerID(String tickerID) {
-        PortfolioItem portfolioItem = new PortfolioItem();
-        stockService.getStockInformation("AAPL", "Apple");
+        PortfolioItem portfolioItem = stockService.getStockInformation("AAPL", "Apple");
         return portfolioItem;
     }
 }
