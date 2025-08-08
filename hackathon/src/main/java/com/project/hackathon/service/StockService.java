@@ -19,7 +19,8 @@ import com.project.hackathon.model.Stock;
 @Service
 public class StockService {
     private final String API_KEY;
-    private final String BASE_URL = "https://finnhub.io/api/v1/quote";
+    private final String QUOTE_BASE_URL = "https://finnhub.io/api/v1/quote";
+    private final String SYMBOL_BASE_URL = "https://finnhub.io/api/v1/search?q=%s&exchange=%s&token=%s";
 
     @Autowired
     public StockService(@Value("${finnhub.api.key}") String API_KEY) {
@@ -27,7 +28,7 @@ public class StockService {
     }
 
     public Stock getStockInformation(String symbol) {
-        String stockEndpoint = String.format("%s?symbol=%s&token=%s", BASE_URL, symbol,
+        String stockEndpoint = String.format("%s?symbol=%s&token=%s", QUOTE_BASE_URL, symbol,
                 API_KEY);
 
         HttpClient httpClient = HttpClient.newHttpClient();
@@ -53,5 +54,32 @@ public class StockService {
         stock.setTickerSymbol(symbol);
 
         return stock;
+    }
+
+    public void findStockByTickerSymbol(String query, String exchange) {
+        /*
+         * String formattedUrl = String.format(SYMBOL_BASE_URL, query, exchange,
+         * API_KEY);
+         * 
+         * HttpClient httpClient = HttpClient.newHttpClient();
+         * HttpRequest httpRequest = HttpRequest.newBuilder()
+         * .uri(URI.create(formattedUrl))
+         * .GET()
+         * .build();
+         * 
+         * Optional<HttpResponse<String>> httpResponse = Optional.empty();
+         * JsonObject results;
+         * 
+         * try {
+         * httpResponse = Optional.of(httpClient.send(httpRequest,
+         * HttpResponse.BodyHandlers.ofString()));
+         * } catch (IOException | InterruptedException exception) {
+         * exception.printStackTrace();
+         * } finally {
+         * results =
+         * JsonParser.parseString(httpResponse.get().body()).getAsJsonObject();
+         * }
+         */
+
     }
 }
