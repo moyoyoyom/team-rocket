@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,14 +26,18 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/history")
     public ResponseEntity<?> getUserTransactionHistory() {
         List<Order> transactionHistory = orderService.getTransactionHistory();
         return ResponseEntity.ok(transactionHistory);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/makeorder")
     public ResponseEntity<?> makeOrder(@RequestBody Order stockOrder) {
-        return ResponseEntity.ok("Order was successful");
+        boolean orderIsSuccessful = orderService.makeTransaction(stockOrder);
+        return orderIsSuccessful ? ResponseEntity.ok("Order was successful")
+                : ResponseEntity.ok("Order was unsuccessful");
     }
 }

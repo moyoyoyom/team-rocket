@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,22 +18,24 @@ import com.project.hackathon.service.PortfolioItemService;
 @RequestMapping("/api/teamrocket/stocks")
 public class PortfolioItemController {
 
-    private final PortfolioItemService stockService;
+    private final PortfolioItemService portfolioItemService;
 
     @Autowired
-    public PortfolioItemController(PortfolioItemService stockService) {
-        this.stockService = stockService;
+    public PortfolioItemController(PortfolioItemService portfolioItemService) {
+        this.portfolioItemService = portfolioItemService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/getall")
     public ResponseEntity<List<PortfolioItem>> getUserAllStocks() {
-        List<PortfolioItem> stocks = stockService.getAllStocks();
+        List<PortfolioItem> stocks = portfolioItemService.getAllStocks();
         return ResponseEntity.ok(stocks);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/getstockinfo/{tickerID}")
     public ResponseEntity<?> getStockInfo(@PathVariable("tickerID") String tickerID) {
-        Stock stock = stockService.getStockByTickerID(tickerID);
+        Stock stock = portfolioItemService.getStockByTickerID(tickerID);
         return ResponseEntity.ok(stock);
     }
 }
