@@ -5,16 +5,15 @@ import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Stock {
-    private String name;
-    private String tickerSymbol;
-    private BigDecimal currentPrice;
-    private LocalDateTime timeUpdated;
+public class Transactions {
+    private Integer orderID;
+    private Stock stock;
+    private LocalDateTime date;
+    private BigDecimal valueAtDate;
+    private String type;
 }

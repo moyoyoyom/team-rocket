@@ -2,6 +2,7 @@ package com.project.hackathon.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.project.hackathon.model.Order;
 import com.project.hackathon.model.OrderAction;
 import com.project.hackathon.model.PortfolioItem;
 import com.project.hackathon.model.Stock;
+import com.project.hackathon.model.Transactions;
 import com.project.hackathon.repository.OrderRepository;
 import com.project.hackathon.repository.PortfolioItemRepository;
 
@@ -18,12 +20,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final PortfolioItemRepository portfolioItemRepository;
     private final PortfolioItemService portfolioItemService;
+    private final StockService stockService;
 
     public OrderService(OrderRepository orderRepository, PortfolioItemRepository portfolioItemRepository,
-            PortfolioItemService portfolioItemService) {
+            PortfolioItemService portfolioItemService, StockService stockService) {
         this.orderRepository = orderRepository;
         this.portfolioItemRepository = portfolioItemRepository;
         this.portfolioItemService = portfolioItemService;
+        this.stockService = stockService;
     }
 
     public List<Order> getTransactionHistory() {
@@ -77,5 +81,19 @@ public class OrderService {
 
     public void sellStock() {
 
+    }
+
+    public List<Transactions> convertOrdersToTransactions(List<Order> orders) {
+        List<Transactions> transactions = new ArrayList<>();
+
+        for (Order order : orders) {
+            String tickerSymbol = order.getTickerSymbol();
+            Stock stock = stockService.getStockInformation(tickerSymbol);
+            stock.setName(stock.getTickerSymbol());
+            Transactions transaction = new Transactions(order.getOrderID(), stock, order.getExecutionDateTime(),
+                    order.getDollarAmount(), order.getOrderAction().toString());
+            transactions.add(transaction);
+        }
+        return transactions;
     }
 }

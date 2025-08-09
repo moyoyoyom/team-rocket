@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.hackathon.model.Order;
+import com.project.hackathon.model.Transactions;
 import com.project.hackathon.service.OrderService;
-
-
 
 @RestController
 @RequestMapping("/api/teamrocket/order")
@@ -29,7 +28,8 @@ public class OrderController {
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/history")
     public ResponseEntity<?> getUserTransactionHistory() {
-        List<Order> transactionHistory = orderService.getTransactionHistory();
+        List<Order> orders = orderService.getTransactionHistory();
+        List<Transactions> transactionHistory = orderService.convertOrdersToTransactions(orders);
         return ResponseEntity.ok(transactionHistory);
     }
 
