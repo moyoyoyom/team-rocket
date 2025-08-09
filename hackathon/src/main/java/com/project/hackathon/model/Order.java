@@ -38,5 +38,8 @@ public class Order {
     private BigDecimal dollarAmount;
 
     @Column(nullable = false)
+    private BigDecimal priceOfOneShare;
+
+    @Column(nullable = false)
     private LocalDateTime executionDateTime;
 }

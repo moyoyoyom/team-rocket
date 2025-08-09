@@ -1,6 +1,7 @@
 package com.project.hackathon.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,11 @@ public class OrderService {
         for (Order order : orders) {
             String tickerSymbol = order.getTickerSymbol();
             Stock stock = stockService.getStockInformation(tickerSymbol);
-            BigDecimal currentValue = stock.getCurrentPrice();
+
+            BigDecimal sharesBought = order.getDollarAmount().divide(order.getPriceOfOneShare(), 2,
+                    RoundingMode.HALF_EVEN);
+            BigDecimal currentValue = sharesBought.multiply(stock.getCurrentPrice());
+
             stock.setName(stock.getTickerSymbol());
 
             Transactions transaction = new Transactions(order.getOrderID(), stock, order.getExecutionDateTime(),
