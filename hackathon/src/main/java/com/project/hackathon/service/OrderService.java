@@ -89,9 +89,12 @@ public class OrderService {
         for (Order order : orders) {
             String tickerSymbol = order.getTickerSymbol();
             Stock stock = stockService.getStockInformation(tickerSymbol);
+            BigDecimal currentValue = stock.getCurrentPrice();
             stock.setName(stock.getTickerSymbol());
+
             Transactions transaction = new Transactions(order.getOrderID(), stock, order.getExecutionDateTime(),
-                    order.getDollarAmount(), order.getOrderAction().toString());
+                    order.getDollarAmount(), currentValue, order.getOrderAction().toString());
+
             transactions.add(transaction);
         }
         return transactions;

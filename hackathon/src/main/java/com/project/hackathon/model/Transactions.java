@@ -15,5 +15,6 @@ public class Transactions {
     private Stock stock;
     private LocalDateTime date;
     private BigDecimal valueAtDate;
+    private BigDecimal currentValue;
     private String type;
 }
