@@ -2,6 +2,7 @@ package com.project.hackathon.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat.Style;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,19 +44,19 @@ public class OrderService {
 
         if (action == OrderAction.BUY) {
             if (existingStocks.size() > 0) {
+                System.out.println("Adding to existing stock");
                 buyStock(existingStocks.get(0), stockOrder);
                 return true;
             } else {
-                // check if ticker symbol exists
-
+                System.out.println("Buying new type of stock");
                 // then create new stock
                 PortfolioItem newPortfolioItem = new PortfolioItem();
                 // buy that one
-
                 buyStock(newPortfolioItem, stockOrder);
             }
         } else if (action == OrderAction.SELL) {
-            sellStock();
+            PortfolioItem portfolioItem = existingStocks.get(0);
+            sellStock(portfolioItem, stockOrder);
             return true;
         }
 
@@ -66,6 +67,10 @@ public class OrderService {
     }
 
     public void buyStock(PortfolioItem portfolioItem, Order stockOrder) {
+        // Getting the current price of one stock
+        Stock stock = stockService.getStockInformation(portfolioItem.getTickerSymbol());
+        portfolioItem.setCurrentPrice(stock.getCurrentPrice());
+
         // Updating the price of portfolio item
         BigDecimal newPortfolioItemPrice = portfolioItem.getCurrentPrice().add(stockOrder.getDollarAmount());
         portfolioItem.setCurrentPrice(newPortfolioItemPrice);
@@ -73,14 +78,41 @@ public class OrderService {
         // Updating the quantity of portfolio item
         BigDecimal priceOfOneStock = portfolioItemService.getStockByTickerID(stockOrder.getTickerSymbol())
                 .getCurrentPrice();
-        BigDecimal quantityOfStock = newPortfolioItemPrice.divide(priceOfOneStock);
+        if (priceOfOneStock.compareTo(BigDecimal.ZERO) == 0) {
+            priceOfOneStock = BigDecimal.valueOf(1);
+        }
+        BigDecimal quantityOfStock = newPortfolioItemPrice.divide(priceOfOneStock, 2, RoundingMode.HALF_EVEN);
         portfolioItem.setQuantity(quantityOfStock);
+
+        portfolioItem.setName(stock.getTickerSymbol());
+        portfolioItem.setPriceBoughtAt(stockOrder.getDollarAmount());
+        portfolioItem.setTickerSymbol(stock.getTickerSymbol());
+        stockOrder.setPriceOfOneShare(priceOfOneStock);
+
+        System.out.println(portfolioItem);
+        System.out.println(stockOrder);
 
         // Save the stock
         portfolioItemRepository.save(portfolioItem);
+
+        // Save the transaction
+        orderRepository.save(stockOrder);
     }
 
-    public void sellStock() {
+    public void sellStock(PortfolioItem portfolioItem, Order stockOrder) {
+        // Update portfolio item
+        BigDecimal newPortfolioItemPrice = portfolioItem.getCurrentPrice().subtract(stockOrder.getDollarAmount());
+        portfolioItem.setCurrentPrice(newPortfolioItemPrice);
+
+        BigDecimal priceOfOneStock = portfolioItemService.getStockByTickerID(stockOrder.getTickerSymbol())
+                .getCurrentPrice();
+
+        stockOrder.setPriceOfOneShare(priceOfOneStock);
+        // Save the portfolio item
+        portfolioItemRepository.save(portfolioItem);
+
+        // Save the stock order
+        orderRepository.save(stockOrder);
 
     }
 
